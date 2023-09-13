@@ -45,8 +45,8 @@ public class Main {
     }
 
     public  static void run(String source) {
-        Scanner scanner = new Scanner();
-        List<Token>  tokens = scanner.scanTokens();
+        Scanner scanner = new Scanner(source);
+        List<Token>  tokens = scanner.scanToKens();
         for (Token token: tokens) {
             // Does this even come close to using the values that
             System.out.println(tokens);
