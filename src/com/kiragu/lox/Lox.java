@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class Main {
+public class Lox {
 
     static boolean hadError = false;
 
@@ -39,8 +39,6 @@ public class Main {
     public  static  void runFile(String path) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
-        /// This is just something
-        /// Makes sense as such values come to use
         if (hadError) System.exit(65);
     }
 
@@ -48,12 +46,10 @@ public class Main {
         Scanner scanner = new Scanner(source);
         List<Token>  tokens = scanner.scanToKens();
         for (Token token: tokens) {
-            // Does this even come close to using the values that
             System.out.println(tokens);
         }
     }
 
-    // There was an error line  here
     static  void error(int line, String message) {
         report(line, "", message);
     }
