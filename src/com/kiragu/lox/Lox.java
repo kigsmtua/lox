@@ -13,15 +13,15 @@ public class Lox {
     static boolean hadError = false;
 
     public static void main(String[] args) throws IOException {
-        if(args.length > 1) {
-            System.out.println("Usage: jlox [script]");
-            System.exit(64);
-        } else if (args.length == 1) {
-            runFile(args[0]);
-        } else {
-            runPrompt();
-        }
-        System.out.println("Hello world!");
+        Expr expression = new Expr.Binary(
+                new Expr.Unary(
+                        new Token(TokenType.MINUS, "-", null, 1),
+                        new Expr.Literal(123)),
+                new Token(TokenType.STAR, "*", null, 1),
+                new Expr.Grouping(
+                        new Expr.Literal(45.67)));
+
+        System.out.println(new AstPrinter().print(expression));
     }
     public static void runPrompt() throws IOException {
         InputStreamReader input = new InputStreamReader(System.in);
