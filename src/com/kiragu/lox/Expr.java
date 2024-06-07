@@ -19,7 +19,6 @@ abstract class Expr {
     <R> R accept(Visitor<R> visitor) {
       return visitor.visitBinaryExpr(this);
     }
-
     final Expr left;
     final Token operator;
     final Expr right;
