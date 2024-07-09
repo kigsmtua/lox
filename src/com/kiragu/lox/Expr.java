@@ -15,10 +15,12 @@ abstract class Expr {
       this.operator = operator;
       this.right = right;
     }
+
     @Override
     <R> R accept(Visitor<R> visitor) {
       return visitor.visitBinaryExpr(this);
     }
+
     final Expr left;
     final Token operator;
     final Expr right;
