@@ -11,17 +11,21 @@ import java.util.List;
 public class Lox {
 
     static boolean hadError = false;
+    static boolean hadRuntimeError = false;
 
+    private static final Interpreter interpreter = new Interpreter();
     public static void main(String[] args) throws IOException {
-        Expr expression = new Expr.Binary(
-                new Expr.Unary(
-                        new Token(TokenType.MINUS, "-", null, 1),
-                        new Expr.Literal(123)),
-                new Token(TokenType.STAR, "*", null, 1),
-                new Expr.Grouping(
-                        new Expr.Literal(45.67)));
-
-        System.out.println(new AstPrinter().print(expression));
+//        Expr expression = new Expr.Binary(
+//                new Expr.Unary(
+//                        new Token(TokenType.MINUS, "-", null, 1),
+//                        new Expr.Literal(123)),
+//                new Token(TokenType.STAR, "*", null, 1),
+//                new Expr.Grouping(
+//                        new Expr.Literal(45.67)));
+//
+//        System.out.println(new AstPrinter().print(expression));
+        System.out.println(args.toString());
+        run("2+3");
     }
     public static void runPrompt() throws IOException {
         InputStreamReader input = new InputStreamReader(System.in);
@@ -40,6 +44,7 @@ public class Lox {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
         if (hadError) System.exit(65);
+        if (hadRuntimeError) System.exit(70);
     }
 
     public  static void run(String source) {
@@ -48,6 +53,7 @@ public class Lox {
         Parser parser = new Parser(tokens);
         Expr expression = parser.parse();
         if (hadError) return;
+        interpreter.interpret(expression);
         System.out.println(new AstPrinter().print(expression));
     }
 
@@ -61,6 +67,12 @@ public class Lox {
         } else {
             report(token.line, " at '" + token.lexeme + "'", message);
         }
+    }
+
+    static void runtimeError(RuntimeError error) {
+        System.err.println(error.getMessage() +
+                "\n[line " + error.token.line + "]");
+        hadRuntimeError = true;
     }
 
 
