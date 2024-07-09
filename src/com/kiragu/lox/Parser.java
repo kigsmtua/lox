@@ -46,9 +46,23 @@ public class Parser {
         return  new Stmt.Var(name, initializer); // The value of this being an expression actually makes sense
     }
     private Expr expression(){
-        return equality();
+        return assignment();
     }
 
+    private Expr assignment (){
+        Expr expr = equality();
+        if (match(EQUAL)) {
+            Token equals = previous();
+            Expr value = assignment();
+
+            if (expr instanceof Expr.Variable) {
+                Token name = ((Expr.Variable)expr).name;
+                return  new Expr.Assign(name, value);
+            }
+            error(equals, "Invalid assignment target.");
+        }
+        return  expr;
+    }
     private Stmt statement() {
         if (match(PRINT)) return printStatement();
 
