@@ -5,6 +5,12 @@ import java.util.List;
 public class Interpreter implements  Expr.Visitor<Object>, Stmt.Visitor<Void>{
 
     private Environment environment = new Environment();
+
+    @Override
+    public Object visitAssignExpr(Expr.Assign expr) {
+        return null;
+    }
+
     @Override
     public Object visitBinaryExpr(Expr.Binary expr) {
         Object right = evaluate(expr.right);
