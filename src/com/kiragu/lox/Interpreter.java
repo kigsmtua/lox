@@ -97,6 +97,12 @@ public class Interpreter implements  Expr.Visitor<Object>, Stmt.Visitor<Void>{
         // unreachable
         return null;
     }
+
+    @Override
+    public Object visitVariableExpr(Expr.Variable expr) {
+        return null;
+    }
+
     private void checkNumberOperand(Token operator, Object operand) {
         if (operand instanceof Double) return;
         throw new RuntimeError(operator, "Operand must be a number.");
